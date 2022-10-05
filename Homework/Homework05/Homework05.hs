@@ -20,7 +20,7 @@ curry' f x y = f (x,y)
 -- Start with using just higher-order functions and build from there. 
 
 checkUpper :: String -> Bool
-checkUpper = any  (`elem` ['A'..'Z'])
+checkUpper = any (`elem` ['A'..'Z'])
 
 
 -- Create the `count` function that takes a team ("Red", "Blue", or "Green") and returns the amount of votes the team has inside `votes`.
