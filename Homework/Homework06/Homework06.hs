@@ -5,6 +5,8 @@
 -- >>> repeat 17
 --[17,17,17,17,17,17,17,17,17...
 
+repeat' :: a -> [a]
+repeat' x = x : repeat' x
 
 -- Question 2
 -- Using the `repeat'` function and the `take` function we defined in the lesson (comes with Haskell),
@@ -18,6 +20,8 @@
 -- >>> replicate 4 True
 -- [True,True,True,True]
 
+replicate' :: Int -> a -> [a]
+replicate' n x = take n (repeat' x)
 
 -- Question 3
 -- Write a function called `concat'` that concatenates a list of lists.
@@ -25,6 +29,10 @@
 -- >>> concat' [[1,2],[3],[4,5,6]]
 -- [1,2,3,4,5,6]
 
+concat' :: [[a]] -> [a]
+-- concat' [] = []
+-- concat' (x:rest) = x ++ (concat' rest)
+concat' = foldr (++) []
 
 -- Question 4
 -- Write a function called `zip'` that takes two lists and returns a list of
@@ -45,7 +53,10 @@
 -- >>> zip' [1..] []
 -- []
 
-
+zip' :: [a] -> [b] -> [(a,b)]
+zip' [] _ = []
+zip' _ [] = []
+zip' (x:xs) (y:ys) = (x,y) : zip' xs ys
 
 -- Question 5
 -- Create a function called `zipWith'` that generalises `zip'` by zipping with a
@@ -60,6 +71,10 @@
 -- >>> zipWith (+) [1, 2, 3] [4, 5, 6]
 -- [5,7,9]
 
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' _ [] _ = []
+zipWith' _ _ [] = []
+zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
 
 -- Question 6
 -- Write a function called `takeWhile'` that takes a precate and a list and
@@ -72,11 +87,24 @@
 -- >>> takeWhile (< 0) [1,2,3]
 -- []
 
+takeWhile' :: (a -> Bool) -> [a] -> [a]
+takeWhile' _ [] = []
+takeWhile' f (x:xs) = if f x then x: takeWhile' f xs else []
 
 -- Question 7 (More difficult)
 -- Write a function that takes in an integer n, calculates the factorial n! and
 -- returns a string in the form of 1*2* ... *n = n! where n! is the actual result.
 
+factorial :: Int -> Int
+factorial 0 = 1
+factorial n = n * factorial (n-1)
+
+factorialString :: Int -> String
+factorialString 1 = "1"
+factorialString n = factorialString (n-1) ++ "*" ++ show n
+
+f :: Int -> String
+f n = factorialString n ++ "=" ++ show (factorial n)
 
 -- Question 8
 -- Below you have defined some beer prices in bevogBeerPrices and your order list in
